@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import AddWord from "./components/addWord.jsx";
 import SearchWord from "./components/searchWord.jsx";
@@ -23,6 +23,29 @@ const glossy = [
 
 const App = () => {
   const [words, setWords] = useState(glossy);
+
+  // useEffect(/**callback */)
+    // get all words from DB
+    // setState
+  // addWord function
+    // add word to DB using post
+    // if successful
+      // get words and update state
+    // if failed
+      // notify user
+  // search word function
+    // search words
+    // update state with filtered words
+  // edit word
+    // edit word in DB using patch 
+    // upon success setState with new words
+    // upon fail
+      // inform user
+  // delete word
+    // use delete to remove word from DB
+    // upon success, get words and set state
+    // fail 
+      // let user know
 
   return (
     <div>
