@@ -2,20 +2,25 @@
 import React from "react";
 // import useState from react
 import { useState } from "react";
+import axios from "axios";
 
 // create Word function
-const Words = ({ word }) => {
+const Words = ({ word, setWords }) => {
 
 
   // delete word
   const deleteWord = (id) => {
+    console.log(id)
     // use delete to remove word from DB
-    axios.delete('/glossary', {id: id})
-    // upon success, get words and set state
-    .then(() => axios.get('/glossary'))
-    // fail let user know
-    .then((response) => setWords(response.data))
-    .catch((error) => alert('Failed'));
+    axios.post('/glossary', {_id: id})
+      // upon success, get words and set state
+      .then(() => axios.get('/glossary'))
+      // fail let user know
+      .then((response) => setWords(response.data))
+      .catch((error) => {
+        console.log(error);
+        alert('Failed')
+      });
   }
 
   // edit word
@@ -33,8 +38,7 @@ const Words = ({ word }) => {
 
   const handleDelete = (e) => {
     e.preventDefault()
-    console.log(word.word);
-    //deleteWord(word.id)
+    deleteWord(word._id)
   }
 
   const handleEdit = (e) => {

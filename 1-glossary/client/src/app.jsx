@@ -23,30 +23,23 @@ const glossy = [
 ];
 
 const App = () => {
-  const [words, setWords] = useState(glossy);
+  const [words, setWords] = useState([]);
   const [filter, setFilter] = useState('');
 
   // useEffect(/**callback */)
   useEffect(() => {
-    // get all words from DB
     axios.get('/glossary')
-      // setState
       .then((result) => setWords(result.data))
       .catch((err) => alert('error'))
   }, [])
 
   // addWord function
   const addWord = (word, definition) => {
-    console.log('Returned from addWord: ', word, definition);
     const newWord = { word: word, definition: definition};
-    console.log('New word obj: ', newWord)
-    // // add word to DB using post
-    // axios.post('/glossary', newWord)
-    //   // if successful get words and update state
-    //   .then(() => axios.get('/glossary'))
-    //   .then((response) => setWords(response.data))
-    //   // if failed notify user
-    //   .catch((error) => alert('FAILED'));
+    axios.post('/glossary', newWord)
+      .then(() => axios.get('/glossary'))
+      .then((response) => setWords(response.data))
+      .catch((error) => alert('FAILED'));
   }
 
   // search word function
@@ -60,7 +53,7 @@ const App = () => {
       <h1>Glossary App</h1>
       <AddWord addWord={addWord}/>
       <SearchWord searchWord={searchWord}/>
-      <WordList words={words} filter={filter}/>
+      <WordList words={words} filter={filter} setWords={setWords}/>
     </div>
   )
 }
