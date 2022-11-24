@@ -6,20 +6,19 @@ import Words from "./words.jsx";
 
 
 // create WordList Function
-const WordList = ({ words }) => {
+const WordList = ({ words, filter }) => {
   return (
     <div>
       <h3>My Words</h3>
       <div>
         {words.map((word, index) => {
-          return <Words key={index} word={word}/>
+          if (word.word.toLowerCase().includes(filter.toLowerCase())) {
+            return <Words key={index} word={word}/>
+          }
         })}
       </div>
     </div>
   )
-  // div
-    // generate each word
-
 }
 
 

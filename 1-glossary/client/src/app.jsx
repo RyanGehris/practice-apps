@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import axios from "axios";
 import AddWord from "./components/addWord.jsx";
 import SearchWord from "./components/searchWord.jsx";
 import WordList from "./components/wordList.jsx";
@@ -23,36 +24,43 @@ const glossy = [
 
 const App = () => {
   const [words, setWords] = useState(glossy);
+  const [filter, setFilter] = useState('');
 
   // useEffect(/**callback */)
+  useEffect(() => {
     // get all words from DB
-    // setState
+    axios.get('/glossary')
+      // setState
+      .then((result) => setWords(result.data))
+      .catch((err) => alert('error'))
+  }, [])
+
   // addWord function
-    // add word to DB using post
-    // if successful
-      // get words and update state
-    // if failed
-      // notify user
+  const addWord = (word, definition) => {
+    console.log('Returned from addWord: ', word, definition);
+    const newWord = { word: word, definition: definition};
+    console.log('New word obj: ', newWord)
+    // // add word to DB using post
+    // axios.post('/glossary', newWord)
+    //   // if successful get words and update state
+    //   .then(() => axios.get('/glossary'))
+    //   .then((response) => setWords(response.data))
+    //   // if failed notify user
+    //   .catch((error) => alert('FAILED'));
+  }
+
   // search word function
-    // search words
-    // update state with filtered words
-  // edit word
-    // edit word in DB using patch 
-    // upon success setState with new words
-    // upon fail
-      // inform user
-  // delete word
-    // use delete to remove word from DB
-    // upon success, get words and set state
-    // fail 
-      // let user know
+  const searchWord = (word) => {
+    console.log('Searched word: ', word);
+    setFilter(word);
+  }
 
   return (
     <div>
       <h1>Glossary App</h1>
-      <AddWord />
-      <SearchWord />
-      <WordList words={words}/>
+      <AddWord addWord={addWord}/>
+      <SearchWord searchWord={searchWord}/>
+      <WordList words={words} filter={filter}/>
     </div>
   )
 }

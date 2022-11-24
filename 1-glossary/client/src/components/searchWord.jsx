@@ -3,13 +3,24 @@ import React from "react";
 import { useState } from "react";
 
 // create SearchWord function
-const SearchWord = () => {
+const SearchWord = ({ searchWord }) => {
+  const [word, setWord] = useState('')
+
+  const eventHandler = (e) => {
+    e.preventDefault()
+    searchWord(word);
+  }
+
   return (
     <div>
-      <form>
+      <form onSubmit={eventHandler}>
         <div>
           <label>Search Word</label>
-          <input type="text" required></input>
+          <input
+            type="text"
+            value={word}
+            onChange={(e) => setWord(e.target.value)}>
+          </input>
         </div>
         <div>
           <input type="submit" value="Search"></input>
